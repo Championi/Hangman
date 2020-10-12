@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Threading;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+=======
+using System.Threading;
+>>>>>>> 49a7adaf8717a6282aaa9e18ac15dc2dd23bcb56
 
 namespace Hangman
 {
@@ -55,8 +58,6 @@ namespace Hangman
 
 
         }
-    }
-}
         static void CurrentWord(string word) {
             foreach (char letter in word)
             {
@@ -68,6 +69,10 @@ namespace Hangman
                     Console.WriteLine("-");
                 }
             }
+        }
+        static void fbs()
+        {
+            Console.WriteLine("New method...");
         }
     }
 }
