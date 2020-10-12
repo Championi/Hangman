@@ -10,7 +10,14 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World2!");
+<<<<<<< HEAD
+            //Console.WriteLine("Hello World2!");
+            fbs();
+        }
+        static void fbs()
+        {
+            Console.WriteLine(Countries.GetRandom());
+=======
             string wordToGuess = "Applepie";
             //CharSet wordToGuessSet = "a"
 
@@ -56,12 +63,6 @@ namespace Hangman
 
 
         }
-        static void fbs()
-        {
-            Console.WriteLine("New method...");
-        }
-    }
-}
     }
 }
         static void CurrentWord(string word) {
@@ -75,6 +76,7 @@ namespace Hangman
                     Console.WriteLine("-");
                 }
             }
+>>>>>>> c4bba48e7ddb0cd958d7a5bbbd71a4ba7425406a
         }
     }
 }
