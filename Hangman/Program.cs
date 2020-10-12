@@ -10,16 +10,17 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World2!");
-            string wordToGuess = Countries.GetRandom();// "Applepie";
+           
+            //string wordToGuess = Countries.GetRandom();
+            string wordToGuess = "Applepie";
+            wordToGuess = wordToGuess.ToLower();
+
             HashSet<string> wordHash = new HashSet<string>(); //Appie
 
             for (int i = 0; i < wordToGuess.Length; i++)
             {
                 wordHash.Add(wordToGuess.Substring(i, 1));
             }
-
-            //            string wordToGuessSet = .ToLower();
 
 
             List<string> correctlyGuessed = new List<string>();
@@ -39,37 +40,41 @@ namespace Hangman
 
 
                 //#prints the word with "-" except for the letters the user guessed correctly.
-                CurrentWord(wordToGuess, wordHash);
+                CurrentWord(wordToGuess, correctlyGuessed);
 
                 //#prints a list of the letters the user guessed incorrectly.
-                Console.WriteLine(incorrectlyGuessed);
+                //Console.WriteLine(incorrectlyGuessed); #Does not print out what we want yet
 
                 Console.WriteLine($"Number of guesses left: {numberOfTries}");
 
                 Console.WriteLine("Please guess a letter.");
-                var answer = Console.Read();
+                char answer = (char)Console.Read();
+                Console.ReadLine();
 
-                //if (answer present in wordToGuessSet) {
-                //add answer to correctlyGuessed;
-                //}
-
-                //else {
-                //numberOfTries--;
-                //add answer to incorrectlyGuessed;
-                //}
-
-
-                // }
-                //if (numberOfTries == 0) {
-                //Console.WriteLine($"You lost, the right word was {wordToGuess}");
-
-
+                if (wordHash.Contains(answer.ToString()))
+                {
+                    correctlyGuessed.Add(answer.ToString());
+                    Console.WriteLine("INSIDE IF STATEMENT");
+                }
+                else
+                {
+                    numberOfTries = numberOfTries - 1;
+                    incorrectlyGuessed.Add(answer.ToString());
+                    Console.WriteLine("INSIDE ELSE STATEMENT");
+                }
             }
-            static void CurrentWord(string word, HashSet<string> myHash)
+
+
+                
+                if (numberOfTries == 0)
+                {
+                    Console.WriteLine($"You lost, the right word was {wordToGuess}");
+                }
+            static void CurrentWord(string word, List<string> correctlyGuessed)
             {
                 foreach (char letter in word)
                 {
-                    if (myHash.Contains(letter.ToString()))
+                    if (correctlyGuessed.Contains(letter.ToString()))
                         Console.WriteLine(letter);
                     else
                     {
