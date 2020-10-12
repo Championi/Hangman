@@ -11,68 +11,70 @@ namespace Hangman
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World2!");
-            string wordToGuess = "Applepie";
-            //CharSet wordToGuessSet = "a"
+            string wordToGuess = Countries.GetRandom();// "Applepie";
+            HashSet<string> wordHash = new HashSet<string>(); //Appie
 
-           List<string> correctlyGuessed = new List<string>();
-           List<string> incorrectlyGuessed = new List<string>();
+            for (int i = 0; i < wordToGuess.Length; i++)
+            {
+                wordHash.Add(wordToGuess.Substring(i, 1));
+            }
 
-            
+            //            string wordToGuessSet = .ToLower();
+
+
+            List<string> correctlyGuessed = new List<string>();
+            List<string> incorrectlyGuessed = new List<string>();
+
+
             int numberOfTries = 10;
 
-            //while (numberOfTries != 0)
-            // {
-            //if (correctlyGuessed == correctlyGuessedSet)
-            //{
-            //    Console.WriteLine("You Won!");
-            //    CurrentWord(wordToGuess);
-            //    break;
-            //}
-
-            //#prints the word with "-" except for the letters the user guessed correctly.
-            CurrentWord(wordToGuess);
-
-            //#prints a list of the letters the user guessed incorrectly.
-            Console.WriteLine(incorrectlyGuessed);
-
-            Console.WriteLine($"Number of guesses left: {numberOfTries}");
-
-            Console.WriteLine("Please guess a letter.");
-            var answer = Console.Read();
-
-            //if (answer present in wordToGuessSet) {
-            //add answer to correctlyGuessed;
-            //}
-
-            //else {
-            //numberOfTries--;
-            //add answer to incorrectlyGuessed;
-            //}
-
-
-            // }
-            //if (numberOfTries == 0) {
-            //Console.WriteLine($"You lost, the right word was {wordToGuess}");
-
-
-        }
-        static void fbs()
-        {
-            Console.WriteLine("New method...");
-        }
-    }
-}
-    }
-}
-        static void CurrentWord(string word) {
-            foreach (char letter in word)
+            while (numberOfTries != 0)
             {
-                if (letter //is present in correctlyGuessed)
-                Console.WriteLine(letter);
+                /*   if (correctlyGuessed == correctlyGuessedSet)
+                   {
+                       Console.WriteLine("You Won!");
+                       CurrentWord(wordToGuess);
+                       break;
+                   }*/
 
-                else
+
+                //#prints the word with "-" except for the letters the user guessed correctly.
+                CurrentWord(wordToGuess, wordHash);
+
+                //#prints a list of the letters the user guessed incorrectly.
+                Console.WriteLine(incorrectlyGuessed);
+
+                Console.WriteLine($"Number of guesses left: {numberOfTries}");
+
+                Console.WriteLine("Please guess a letter.");
+                var answer = Console.Read();
+
+                //if (answer present in wordToGuessSet) {
+                //add answer to correctlyGuessed;
+                //}
+
+                //else {
+                //numberOfTries--;
+                //add answer to incorrectlyGuessed;
+                //}
+
+
+                // }
+                //if (numberOfTries == 0) {
+                //Console.WriteLine($"You lost, the right word was {wordToGuess}");
+
+
+            }
+            static void CurrentWord(string word, HashSet<string> myHash)
+            {
+                foreach (char letter in word)
                 {
-                    Console.WriteLine("-");
+                    if (myHash.Contains(letter.ToString()))
+                        Console.WriteLine(letter);
+                    else
+                    {
+                        Console.WriteLine("-");
+                    }
                 }
             }
         }
