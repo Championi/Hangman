@@ -10,73 +10,85 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World2!");
+            Console.WriteLine("Guess a country.");
             string wordToGuess = Countries.GetRandom();// "Applepie";
             HashSet<string> wordHash = new HashSet<string>(); //Appie
 
             for (int i = 0; i < wordToGuess.Length; i++)
             {
-                wordHash.Add(wordToGuess.Substring(i, 1));
+                wordHash.Add(wordToGuess.Substring(i, 1).ToLower());
             }
 
-            //            string wordToGuessSet = .ToLower();
-
-
-            List<string> correctlyGuessed = new List<string>();
-            List<string> incorrectlyGuessed = new List<string>();
-
+            string correctlyGuessed = "";
+            string incorrectlyGuessed = "";
 
             int numberOfTries = 10;
 
+            Console.WriteLine("wordToGuess: " + wordToGuess);
+
             while (numberOfTries != 0)
             {
-                /*   if (correctlyGuessed == correctlyGuessedSet)
-                   {
-                       Console.WriteLine("You Won!");
-                       CurrentWord(wordToGuess);
-                       break;
-                   }*/
+                String Hinttext = "";
+                if (CurrentWord(wordToGuess, correctlyGuessed, Hinttext))
+                    break;
 
-
-                //#prints the word with "-" except for the letters the user guessed correctly.
-                CurrentWord(wordToGuess, wordHash);
-
-                //#prints a list of the letters the user guessed incorrectly.
-                Console.WriteLine(incorrectlyGuessed);
-
-                Console.WriteLine($"Number of guesses left: {numberOfTries}");
-
-                Console.WriteLine("Please guess a letter.");
-                var answer = Console.Read();
-
-                //if (answer present in wordToGuessSet) {
-                //add answer to correctlyGuessed;
-                //}
-
-                //else {
-                //numberOfTries--;
-                //add answer to incorrectlyGuessed;
-                //}
-
-
-                // }
-                //if (numberOfTries == 0) {
-                //Console.WriteLine($"You lost, the right word was {wordToGuess}");
-
-
-            }
-            static void CurrentWord(string word, HashSet<string> myHash)
-            {
-                foreach (char letter in word)
+                string input = Console.ReadLine();
+                if (input.Length == 1)
                 {
-                    if (myHash.Contains(letter.ToString()))
-                        Console.WriteLine(letter);
-                    else
+                    if (correctlyGuessed.Contains(input))
+                        Hinttext = "Already guessed...";
+                    else if (!wordHash.Contains(input))
                     {
-                        Console.WriteLine("-");
+                        Hinttext = "Not correct..";
+                        incorrectlyGuessed += input;
+                        numberOfTries--;
+                        if (numberOfTries == 0)
+                            break;
                     }
+                    else
+                        correctlyGuessed += input;
+                }
+                else
+                {
+                    Hinttext = "Input not correct...";
+                }
+                if (Hinttext != "")
+                {
+                    Console.SetCursorPosition(2, 16);
+                    Console.WriteLine(Hinttext);
+                    Thread.Sleep(500);
+                }
+                Console.WriteLine($"Number of guesses left: {numberOfTries}");
+            }
+            if (CurrentWord(wordToGuess, correctlyGuessed, ""))
+                Console.WriteLine("Contratulations!");
+            else
+                Console.WriteLine("Sorry, you should have found:" + wordToGuess);
+        }
+
+        static bool CurrentWord(string TargetWord, string Guesses, string HintText)//, HashSet<string> myHash)
+        {
+            bool retval = true;
+            Console.SetWindowSize(40, 40);
+            Console.SetBufferSize(80, 80);
+            Console.Clear();
+            Console.SetCursorPosition(1, 1);
+            Console.WriteLine(TargetWord);
+            Console.SetCursorPosition(10, 10);
+            foreach (char letter in TargetWord)
+            {
+                if (Guesses.ToLower().Contains(letter.ToString().ToLower()))
+                    Console.Write(letter);
+                else
+                {
+                    Console.Write("-");
+                    retval = false;
                 }
             }
+            Console.SetCursorPosition(2, 14);
+            Console.Write("Please guess a letter:");
+
+            return retval;
         }
     }
 }
