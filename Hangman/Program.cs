@@ -7,11 +7,12 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World2!");
+            //Console.WriteLine("Hello World2!");
+            fbs();
         }
         static void fbs()
         {
-            Console.WriteLine("New method...");
+            Console.WriteLine(Countries.GetRandom());
         }
     }
 }
