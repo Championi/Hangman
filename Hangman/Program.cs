@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+Todo
+- Ordet på en rad. Grafisk, färger etc
+- Ett sätt att vinna
+- Inte kunna skriva längre ord eller konstiga tecken
+- Stora/små bokstäver ska funkar
+- Refactoring: sätta in i metoder
+
+ 
+ 
+ */
+using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +19,8 @@ namespace Hangman
 {
     class Program
     {
+        // todo: metod är cirka 1-7 rader lång cirka (en penna lång)
+
         static void Main(string[] args)
         {
            
@@ -70,7 +83,14 @@ namespace Hangman
                 {
                     Console.WriteLine($"You lost, the right word was {wordToGuess}");
                 }
-            static void CurrentWord(string word, List<string> correctlyGuessed)
+
+
+
+            //static void PrintCurrentWord(string word, List<string> correctlyGuessed);
+
+            //static void GenerateDisplayString(string word, List<string> correctlyGuessed)
+            //static void CurrentWord(string word, List<string> correctlyGuessed)
+            static void PrintCorrectLettersInWord(string word, List<string> correctlyGuessed)
             {
                 foreach (char letter in word)
                 {
