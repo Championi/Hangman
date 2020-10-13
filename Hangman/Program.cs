@@ -26,13 +26,17 @@ namespace Hangman
            
             //string wordToGuess = Countries.GetRandom();
             string wordToGuess = "Applepie";
-            wordToGuess = wordToGuess.ToLower();
+            wordToGuess = wordToGuess.ToUpper();
+
+            //Set console size
+            //Console.SetWindowSize(80, 24);
+            //Console.SetBufferSize(80, 80);
 
             HashSet<string> wordHash = new HashSet<string>(); //Appie
 
             for (int i = 0; i < wordToGuess.Length; i++)
             {
-                wordHash.Add(wordToGuess.Substring(i, 1));
+                wordHash.Add(wordToGuess.Substring(i, 1)); //aplei
             }
 
 
@@ -53,27 +57,27 @@ namespace Hangman
 
 
                 //#prints the word with "-" except for the letters the user guessed correctly.
-                CurrentWord(wordToGuess, correctlyGuessed);
+                PrintCorrectLettersInWord(wordToGuess, correctlyGuessed);
 
                 //#prints a list of the letters the user guessed incorrectly.
                 //Console.WriteLine(incorrectlyGuessed); #Does not print out what we want yet
 
-                Console.WriteLine($"Number of guesses left: {numberOfTries}");
+                Console.WriteLine($"\nNumber of guesses left: {numberOfTries}");
 
-                Console.WriteLine("Please guess a letter.");
-                char answer = (char)Console.Read();
-                Console.ReadLine();
+                string userGuess = getUserInput();
 
-                if (wordHash.Contains(answer.ToString()))
+
+
+                if (wordHash.Contains(userGuess))
                 {
-                    correctlyGuessed.Add(answer.ToString());
-                    Console.WriteLine("INSIDE IF STATEMENT");
+                    correctlyGuessed.Add(userGuess);
+                    Console.WriteLine(userGuess);
                 }
                 else
                 {
                     numberOfTries = numberOfTries - 1;
-                    incorrectlyGuessed.Add(answer.ToString());
-                    Console.WriteLine("INSIDE ELSE STATEMENT");
+                    incorrectlyGuessed.Add(userGuess);
+                    Console.WriteLine(userGuess);
                 }
             }
 
@@ -90,19 +94,36 @@ namespace Hangman
 
             //static void GenerateDisplayString(string word, List<string> correctlyGuessed)
             //static void CurrentWord(string word, List<string> correctlyGuessed)
-            static void PrintCorrectLettersInWord(string word, List<string> correctlyGuessed)
+
+            static void PrintCorrectLettersInWord(string wordToGuess, List<string> correctlyGuessed)
             {
-                foreach (char letter in word)
+                //Console.Clear();
+                //Console.SetCursorPosition(1, 1);
+                //Console.WriteLine("Guess a country ");
+                //Console.SetCursorPosition(5, 5);
+
+              
+
+                foreach (char letter in wordToGuess)
                 {
                     if (correctlyGuessed.Contains(letter.ToString()))
-                        Console.WriteLine(letter);
+                        Console.Write(letter);
                     else
                     {
-                        Console.WriteLine("-");
+                        Console.Write("-");
                     }
                 }
             }
+            static string getUserInput()
+            {
+                Console.Write("Please guess a letter: "); //gör metod utav detta
+                char getCharFromUserInput = (char)Console.Read();
+                string convertCharToString = getCharFromUserInput.ToString().ToUpper();
+                Console.ReadLine();
+                return convertCharToString;
+            }
         }
+
     }
 }
 
