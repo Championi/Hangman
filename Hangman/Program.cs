@@ -14,6 +14,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace Hangman
 {
@@ -28,8 +29,8 @@ namespace Hangman
             wordToGuess = wordToGuess.ToUpper();
 
             //Set console size
-            //Console.SetWindowSize(80, 24);
-            //Console.SetBufferSize(80, 80);
+            Console.SetWindowSize(80, 24);
+            Console.SetBufferSize(80, 80);
 
             HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
 
@@ -43,7 +44,7 @@ namespace Hangman
 
 
             int numberOfTries = 10;
-
+            string errorMessage = "";
             while (numberOfTries != 0)
             {
                 if (CheckForWin(wordToGuess, correctlyGuessed) == true)
@@ -52,14 +53,20 @@ namespace Hangman
                     break;
                 }
 
-                PrintCorrectLettersInWord(wordToGuess, correctlyGuessed);
+                string userGuess = "";
+                do
+                {
+                    PrintCorrectLettersInWord(wordToGuess, correctlyGuessed, errorMessage, incorrectlyGuessed);
+                    // Console.WriteLine(incorrectlyGuessed);
+                    Console.WriteLine($"\nNumber of guesses left: {numberOfTries}");
+                    userGuess = GetUserLetterGuess(); // todo: namngivning 
+                    if (userGuess == "")
+                        errorMessage = "Please enter a letter (a-z)";
+                    else
+                        errorMessage = "";
 
-               // Console.WriteLine(incorrectlyGuessed);
-
-                Console.WriteLine($"\nNumber of guesses left: {numberOfTries}");
-
-                string userGuess = GetUserLetterGuess(); // todo: namngivning 
-
+                } while (userGuess == "");
+          
 
 
                 if (wordHash.Contains(userGuess))
@@ -74,6 +81,10 @@ namespace Hangman
             }
 
 
+            static bool ValidateUserChar(string ch)
+            {
+                return Char.IsLetter(ch.First());
+            }
 
             if (numberOfTries == 0)
             {
@@ -81,15 +92,15 @@ namespace Hangman
             }
 
 
-            static void PrintCorrectLettersInWord(string wordToGuess, string correctlyGuessed)
+            static void PrintCorrectLettersInWord(string wordToGuess, string correctlyGuessed, string ErrorMessage, string incorrectlyGuessedstr)
             {
-                //Console.Clear();
-                //Console.SetCursorPosition(1, 1);
-                //Console.WriteLine("Guess a country ");
-                //Console.SetCursorPosition(5, 5);
-
-
-
+                Console.Clear();
+                Console.SetCursorPosition(1, 1);
+               
+                Console.SetCursorPosition(3, 3);
+                Console.WriteLine(ErrorMessage);
+                Console.SetCursorPosition(5, 5);
+                Console.WriteLine("Guess a country ");
                 foreach (char letter in wordToGuess)
                 {
                     if (correctlyGuessed.Contains(letter.ToString()))
@@ -99,6 +110,9 @@ namespace Hangman
                         Console.Write("-");
                     }
                 }
+                Console.SetCursorPosition(5, 10);
+                Console.WriteLine($"Bad guesses:{incorrectlyGuessedstr}");
+
             }
 
             static bool CheckForWin(string wordToGuess, string correctlyGuessed)
@@ -107,7 +121,7 @@ namespace Hangman
                 {   //Om varje bokstav i gissningsordet finns i listan correctlyGuessed, skicka tillaka "true", annars "false".
                     if (correctlyGuessed.Contains(letter.ToString()) == false)
                     {
-                       return false;
+                        return false;
                     }
                 }
                 return true;
@@ -117,12 +131,22 @@ namespace Hangman
             {
                 Console.Write("Please guess a letter: ");
                 char getCharFromUserInput = (char)Console.Read();
+                if (!ValidateUserChar(getCharFromUserInput.ToString()))
+                {
+                    Console.WriteLine("\nEnter guess between a-z");
+    
+                    return "";
+                }
                 string convertCharToString = getCharFromUserInput.ToString().ToUpper();
                 Console.ReadLine();
                 return convertCharToString;
             }
         }
 
+        private static bool ValidateUserChar(char getCharFromUserInput)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
