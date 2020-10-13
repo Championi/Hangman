@@ -16,7 +16,7 @@ namespace Hangman
             
             while (guessStr.CheckGuess() == false && guessStr.BadGuessCout() < numberOfTries)
             {
-                ShowDialog(guessStr.GenerateInputString(), numberOfTries - guessStr.BadGuessCout(), wordToGuess);
+                ShowDialog(guessStr.GenerateDisplayString(), numberOfTries - guessStr.BadGuessCout(), wordToGuess);
                 string issueComment = guessStr.CheckNewGuess(Console.ReadLine().ToLower());
                 if (issueComment != "")
                 {
