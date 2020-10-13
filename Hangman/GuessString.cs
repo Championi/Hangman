@@ -1,56 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Hangman
 {
     public class GuessString
     {
-        private string StringToGuess { get; set; }
-        private HashSet<string> wordHash = new HashSet<string>();
-        private string UserInput = "";
-        public int BadGuesses = 0;
-   
+        private string _stringToGuess;
+        private HashSet<string> _wordHash = new HashSet<string>();
+        private string _userInput = "";
+        private int _badGuesses = 0;
+
         public GuessString(string target)
         {
-            StringToGuess = target;
-            for (int i = 0; i < StringToGuess.Length; i++)
-                wordHash.Add(StringToGuess.Substring(i, 1).ToLower());
+            _stringToGuess = target;
+            for (int i = 0; i < _stringToGuess.Length; i++)
+                _wordHash.Add(_stringToGuess.Substring(i, 1).ToLower());
         }
 
-        public string CheckNewGuess(string letter)
+        public string CheckNewGuess(string letter) /// return issue comment on a character
         {
             string issue = "";
             if (letter.Length == 1)
             {
-                if (UserInput.Contains(letter))
-                    UserInput = "Already guessed...";
-                else if (!wordHash.Contains(letter))
+                if (!Char.IsLetter(letter.First()))
+                    issue = "Not a valid letter..";
+                else if (_userInput.Contains(letter))
+                    issue = "Already guessed...";
+                else if (!_wordHash.Contains(letter))
                 {
                     issue = "Not correct..";
-                    BadGuesses++;
+                    _badGuesses++;
                 }
                 else
-                    UserInput += letter;
+                    _userInput += letter;
             }
             else
-            {
                 issue = "Input length not correct...";
-            }
             return issue;
         }
-        
-        public Boolean CheckGuess()
+
+        public int BadGuessCout()
         {
-            return GenerateInputString() == StringToGuess; 
+            return _badGuesses;
+        }
+
+        public Boolean CheckGuess() /// Check if user has made a comple guess
+        {
+            return GenerateInputString() == _stringToGuess;
         }
 
         public string GenerateInputString()
         {
             string retval = "";
-            foreach (char letter in StringToGuess)
+            foreach (char letter in _stringToGuess)
             {
-                if (UserInput.ToLower().Contains(letter.ToString().ToLower()))
+                if (_userInput.ToLower().Contains(letter.ToString().ToLower()))
                     retval += letter;
                 else
                     retval += "-";
