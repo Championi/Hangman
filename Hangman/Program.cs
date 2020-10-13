@@ -11,48 +11,24 @@ namespace Hangman
         static void Main(string[] args)
         {
             string wordToGuess = Countries.GetRandom();
-            HashSet<string> wordHash = new HashSet<string>();
-            string correctlyGuessed = "";
+            GuessString guessStr = new GuessString(wordToGuess);
             int numberOfTries = 10;
 
-            for (int i = 0; i < wordToGuess.Length; i++)
-                wordHash.Add(wordToGuess.Substring(i, 1).ToLower());
-   
-   
-            while (numberOfTries != 0)
+            while (guessStr.CheckGuess() == false && guessStr.BadGuesses < numberOfTries)
             {
-                String Hinttext = "";
-                if (CurrentWord(wordToGuess, correctlyGuessed, Hinttext, numberOfTries))
-                    break;
-
+                ShowDialog(guessStr.GenerateInputString(), numberOfTries - guessStr.BadGuesses, wordToGuess);
                 string input = Console.ReadLine();
-                if (input.Length == 1)
-                {
-                    if (correctlyGuessed.Contains(input))
-                        Hinttext = "Already guessed...";
-                    else if (!wordHash.Contains(input))
-                    {
-                        Hinttext = "Not correct..";
-                        numberOfTries--;
-                        if (numberOfTries == 0)
-                            break;
-                    }
-                    else
-                        correctlyGuessed += input;
-                }
-                else
-                {
-                    Hinttext = "Input not correct...";
-                }
-                if (Hinttext != "")
+                string issueComment = guessStr.CheckNewGuess(input);
+                if (issueComment != "")
                 {
                     Console.SetCursorPosition(2, 16);
-                    Console.WriteLine(Hinttext);
+                    Console.WriteLine(issueComment);
                     Thread.Sleep(500);
                 }
-                
             }
-            if (CurrentWord(wordToGuess, correctlyGuessed, "", 0))
+
+
+            if (guessStr.CheckGuess() == true)
             {
                 Console.Clear();
                 Console.WriteLine("Contratulations!");
@@ -61,29 +37,17 @@ namespace Hangman
                 Console.WriteLine("Sorry, you should have found:" + wordToGuess);
         }
 
-        static bool CurrentWord(string TargetWord, string Guesses, string HintText, int GuessesLeft)
+        static void ShowDialog(string InputStr, int GuessesLeft, string TargetWord)
         {
-            bool retval = true;
             Console.SetWindowSize(80, 24);
             Console.SetBufferSize(80, 80);
             Console.Clear();
             Console.SetCursorPosition(1, 1);
             Console.WriteLine("Guess a country " + TargetWord); // For debug purpouse
             Console.SetCursorPosition(10, 10);
-            foreach (char letter in TargetWord)
-            {
-                if (Guesses.ToLower().Contains(letter.ToString().ToLower()))
-                    Console.Write(letter);
-                else
-                {
-                    Console.Write("-");
-                    retval = false;
-                }
-            }
+            Console.Write(InputStr);
             Console.SetCursorPosition(2, 14);
             Console.Write($"({GuessesLeft}) Please guess a letter:");
-
-            return retval;
         }
     }
 }

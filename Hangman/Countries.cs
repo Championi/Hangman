@@ -25,7 +25,6 @@ namespace Hangman
             "Croatia",
             "Cyprus",
             "Czech",
-            "Republic",
             "Denmark",
             "Estonia",
             "Finland",
