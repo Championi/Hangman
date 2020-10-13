@@ -1,10 +1,10 @@
 ﻿/*
 Todo
-- Ordet på en rad. Grafisk, färger etc
-- Ett sätt att vinna
-- Inte kunna skriva längre ord eller konstiga tecken
-- Stora/små bokstäver ska funkar
-- Refactoring: sätta in i metoder
+- Ordet på en rad. Grafisk, färger etc - started
+- Ett sätt att vinna - klart
+- Inte kunna skriva längre ord eller konstiga tecken - started
+- Stora/små bokstäver ska funkar - klar
+- Refactoring: sätta in i metoder - started
 
  
  
@@ -19,11 +19,10 @@ namespace Hangman
 {
     class Program
     {
-        // todo: metod är cirka 1-7 rader lång cirka (en penna lång)
 
         static void Main(string[] args)
         {
-           
+
             //string wordToGuess = Countries.GetRandom();
             string wordToGuess = "Applepie";
             wordToGuess = wordToGuess.ToUpper();
@@ -32,77 +31,64 @@ namespace Hangman
             //Console.SetWindowSize(80, 24);
             //Console.SetBufferSize(80, 80);
 
-            HashSet<string> wordHash = new HashSet<string>(); //Appie
+            HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
 
             for (int i = 0; i < wordToGuess.Length; i++)
             {
-                wordHash.Add(wordToGuess.Substring(i, 1)); //aplei
+                wordHash.Add(wordToGuess.Substring(i, 1)); // Add every unique letter of wordToGuess to the Set list.
             }
 
-
-            List<string> correctlyGuessed = new List<string>();
-            List<string> incorrectlyGuessed = new List<string>();
+            string correctlyGuessed = "";
+            string incorrectlyGuessed = "";
 
 
             int numberOfTries = 10;
 
             while (numberOfTries != 0)
             {
-                /*   if (correctlyGuessed == correctlyGuessedSet)
-                   {
-                       Console.WriteLine("You Won!");
-                       CurrentWord(wordToGuess);
-                       break;
-                   }*/
+                if (CheckForWin(wordToGuess, correctlyGuessed) == true)
+                {
+                    Console.WriteLine($"\nYou Won! The correct word is {wordToGuess}.");
+                    break;
+                }
 
-
-                //#prints the word with "-" except for the letters the user guessed correctly.
                 PrintCorrectLettersInWord(wordToGuess, correctlyGuessed);
 
-                //#prints a list of the letters the user guessed incorrectly.
-                //Console.WriteLine(incorrectlyGuessed); #Does not print out what we want yet
+               // Console.WriteLine(incorrectlyGuessed);
 
                 Console.WriteLine($"\nNumber of guesses left: {numberOfTries}");
 
-                string userGuess = getUserInput();
+                string userGuess = GetUserLetterGuess(); // todo: namngivning 
 
 
 
                 if (wordHash.Contains(userGuess))
                 {
-                    correctlyGuessed.Add(userGuess);
-                    Console.WriteLine(userGuess);
+                    correctlyGuessed += userGuess;
                 }
                 else
                 {
                     numberOfTries = numberOfTries - 1;
-                    incorrectlyGuessed.Add(userGuess);
-                    Console.WriteLine(userGuess);
+                    incorrectlyGuessed += userGuess;
                 }
             }
 
 
-                
-                if (numberOfTries == 0)
-                {
-                    Console.WriteLine($"You lost, the right word was {wordToGuess}");
-                }
+
+            if (numberOfTries == 0)
+            {
+                Console.WriteLine($"You lost, the right word was {wordToGuess}");
+            }
 
 
-
-            //static void PrintCurrentWord(string word, List<string> correctlyGuessed);
-
-            //static void GenerateDisplayString(string word, List<string> correctlyGuessed)
-            //static void CurrentWord(string word, List<string> correctlyGuessed)
-
-            static void PrintCorrectLettersInWord(string wordToGuess, List<string> correctlyGuessed)
+            static void PrintCorrectLettersInWord(string wordToGuess, string correctlyGuessed)
             {
                 //Console.Clear();
                 //Console.SetCursorPosition(1, 1);
                 //Console.WriteLine("Guess a country ");
                 //Console.SetCursorPosition(5, 5);
 
-              
+
 
                 foreach (char letter in wordToGuess)
                 {
@@ -114,9 +100,22 @@ namespace Hangman
                     }
                 }
             }
-            static string getUserInput()
+
+            static bool CheckForWin(string wordToGuess, string correctlyGuessed)
             {
-                Console.Write("Please guess a letter: "); //gör metod utav detta
+                foreach (char letter in wordToGuess)
+                {   //Om varje bokstav i gissningsordet finns i listan correctlyGuessed, skicka tillaka "true", annars "false".
+                    if (correctlyGuessed.Contains(letter.ToString()) == false)
+                    {
+                       return false;
+                    }
+                }
+                return true;
+            }
+
+            static string GetUserLetterGuess()
+            {
+                Console.Write("Please guess a letter: ");
                 char getCharFromUserInput = (char)Console.Read();
                 string convertCharToString = getCharFromUserInput.ToString().ToUpper();
                 Console.ReadLine();
