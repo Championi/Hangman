@@ -13,7 +13,7 @@ namespace Hangman.App
             Console.WriteLine("Test: " + hangman.CreateCurrentGuessAsString());
 
             //    Console.SetCursorPosition(5, 10);
-            while (hangman.numberOfTries != 0)
+            while (hangman.GetNumberOfTriesLeft() != 0)
             {
                 if (hangman.CheckForWin() == true)
                 {
@@ -25,7 +25,7 @@ namespace Hangman.App
                 {
                     PrintCorrectLettersInWord(hangman.GetWordToGuess(), hangman.correctlyGuessed, hangman.errorMessage, hangman.incorrectlyGuessed, hangman);
                     // Console.WriteLine(incorrectlyGuessed);
-                    Console.WriteLine($"\nNumber of guesses left: {hangman.numberOfTries}");
+                    Console.WriteLine($"\nNumber of guesses left: {hangman.GetNumberOfTriesLeft()}");
                     userGuess = GetUserLetterGuess(); // todo: namngivning 
                     if (userGuess == "")
                         hangman.errorMessage = "Please enter a letter (a-z)";
@@ -40,12 +40,12 @@ namespace Hangman.App
                 }
                 else
                 {
-                    hangman.numberOfTries = hangman.numberOfTries - 1;
+                    hangman.SetNumberOfTriesLeft(hangman.GetNumberOfTriesLeft());
                     hangman.incorrectlyGuessed += userGuess;
                 }
             } // While
 
-            if (hangman.numberOfTries == 0)
+            if (hangman.GetNumberOfTriesLeft() == 0)
             {
                 Console.WriteLine($"You lost, the right word was {hangman.GetWordToGuess()}");
             }

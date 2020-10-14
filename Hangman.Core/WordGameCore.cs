@@ -11,13 +11,28 @@ namespace Hangman.Core
 {
     public class WordGameCore
     {
+        public class GuessResult
+        {
+
+        }
+
+        static void Main(string[] args)
+        {
+        }
         private string wordToGuess;
         public  HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
         public string correctlyGuessed = "";
         public string incorrectlyGuessed = "";
-        public int numberOfTries = 10;
+        private int numberOfTriesLeft = 10;
         public string errorMessage = "";
-       
+        public int GetNumberOfTriesLeft()
+        {
+            return numberOfTriesLeft;
+        }
+        public void SetNumberOfTriesLeft(int val)
+        {
+            numberOfTriesLeft = val;
+        }
         public string GetWordToGuess()
         {
             return wordToGuess;
