@@ -19,12 +19,14 @@ namespace Hangman.Core
         static void Main(string[] args)
         {
         }
+
         private string wordToGuess;
-        public  HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
-        public string correctlyGuessed = "";
-        public string incorrectlyGuessed = "";
+        private  HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
+        private string correctlyGuessed = "";
+        private string incorrectlyGuessed = "";
         private int numberOfTriesLeft = 10;
         public string errorMessage = "";
+       
         public int GetNumberOfTriesLeft()
         {
             return numberOfTriesLeft;
@@ -37,7 +39,29 @@ namespace Hangman.Core
         {
             return wordToGuess;
         }
-        
+        public string GetincorrectlyGuessed()
+        {
+            return incorrectlyGuessed;
+        }
+        public void  AddIncorrectlyGuessed(string aStr)
+        {
+            incorrectlyGuessed += aStr;
+        }
+        public void AddCorreclyGuessed(string aStr)
+        {
+            correctlyGuessed += aStr;
+        }
+
+        public bool LetterInGuessWord(string userGuess)
+        {
+            if (wordHash.Contains(userGuess))
+            { 
+                AddCorreclyGuessed(userGuess);
+                return true;
+            }
+            return false;
+        }
+
         public WordGameCore(string aWord)
         {
             wordToGuess = aWord.ToUpper();

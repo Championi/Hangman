@@ -17,13 +17,14 @@ namespace Hangman.App
             {
                 if (hangman.CheckForWin() == true)
                 {
+                    PrintCorrectLettersInWord(hangman);
                     Console.WriteLine($"\nYou Won! The correct word is {hangman.GetWordToGuess()}.");
                     break;
                 }
                 string userGuess = "";
                 do
                 {
-                    PrintCorrectLettersInWord(hangman.GetWordToGuess(), hangman.correctlyGuessed, hangman.errorMessage, hangman.incorrectlyGuessed, hangman);
+                    PrintCorrectLettersInWord(hangman);
                     // Console.WriteLine(incorrectlyGuessed);
                     Console.WriteLine($"\nNumber of guesses left: {hangman.GetNumberOfTriesLeft()}");
                     userGuess = GetUserLetterGuess(); // todo: namngivning 
@@ -34,14 +35,10 @@ namespace Hangman.App
 
                 } while (userGuess == "");
 
-                if (hangman.wordHash.Contains(userGuess))
+                if (hangman.LetterInGuessWord(userGuess) == false)
                 {
-                    hangman.correctlyGuessed += userGuess;
-                }
-                else
-                {
-                    hangman.SetNumberOfTriesLeft(hangman.GetNumberOfTriesLeft());
-                    hangman.incorrectlyGuessed += userGuess;
+                    hangman.SetNumberOfTriesLeft(hangman.GetNumberOfTriesLeft()-1);
+                    hangman.AddIncorrectlyGuessed(userGuess);
                 }
             } // While
 
@@ -74,20 +71,17 @@ namespace Hangman.App
             return Char.IsLetter(getCharFromUserInput);
         }
 
-        public static void PrintCorrectLettersInWord(string wordToGuess, string correctlyGuessed, string ErrorMessage, string incorrectlyGuessedstr,
-            Hangman.Core.WordGameCore ahangman)
+        public static void PrintCorrectLettersInWord(Hangman.Core.WordGameCore aHangman)
         {
             Console.Clear();
             Console.SetCursorPosition(1, 1);
-
             Console.SetCursorPosition(3, 3);
-            Console.WriteLine(ErrorMessage);
+            Console.WriteLine(aHangman.errorMessage);
             Console.SetCursorPosition(5, 5);
             Console.WriteLine("Guess a country ");
-            Console.WriteLine(ahangman.CreateCurrentGuessAsString());
+            Console.WriteLine(aHangman.CreateCurrentGuessAsString());
             Console.SetCursorPosition(5, 10);
-            Console.WriteLine($"Bad guesses:{incorrectlyGuessedstr}");
+            Console.WriteLine($"Bad guesses:{aHangman.GetincorrectlyGuessed()}");
         }
-
     }
 }
