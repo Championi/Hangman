@@ -67,8 +67,6 @@ namespace Hangman
 
                 } while (userGuess == "");
           
-
-
                 if (wordHash.Contains(userGuess))
                 {
                     correctlyGuessed += userGuess;
