@@ -6,13 +6,16 @@ namespace HangMan.Core.Test2
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ShouldTestHangmanName()
         {
+            var aTest = new Hangman.Core.HangmanTest0("A_word");
+            Assert.AreEqual("A_word", aTest.GetWord());
         }
         [TestMethod]
-        public void should_return_Bla()
+        public void Should_Add_Two_Ints()
         {
-
+            var aTest = new Hangman.Core.HangmanTest0();
+            Assert.AreEqual(6, aTest.Add(3,3));
         }
     }
 }

@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace Hangman.Core
 {
-    public class GuessResult
+    class Program
     {
+        public class GuessResult
+        {
+
+        }
         
+        static void Main(string[] args)
+        {
+        }
     }
+
+    
 }
