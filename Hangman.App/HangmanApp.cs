@@ -3,6 +3,17 @@ using System.Threading.Tasks.Sources;
 
 namespace Hangman.App
 {
+    // Comments from Team 1 //
+    // 1. No error message if the user enters same letter again.
+    // 2. No error message if the user enters more than one letter in a row.
+    // 3. If user enters same letter again it will save in bad guesses.
+    // 4. It will be more clear if the Construtor is on the top of the class (WordGameCore)
+    // 5. We couldn't understand why you convert the char user input to string? wouldn't be better to keep it as char?
+    // 6. Keep all the logic part (as ValidateUserChar) in the core class. This method exist in both core and app but it is not used in core.
+    // 7. Good that you have already splitted into core and app part.
+
+
+
     class HangmanApp
     {
 
