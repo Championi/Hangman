@@ -6,8 +6,6 @@ Todo
 - Stora/små bokstäver ska funkar - klar
 - Refactoring: sätta in i metoder - started
 
- 
- 
  */
 using System;
 using System.Threading;

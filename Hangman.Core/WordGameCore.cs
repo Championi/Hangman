@@ -21,12 +21,23 @@ namespace Hangman.Core
         }
 
         private string wordToGuess;
-        private  HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
+        private HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
         private string correctlyGuessed = "";
         private string incorrectlyGuessed = "";
         private int numberOfTriesLeft = 10;
         public string errorMessage = "";
-       
+
+        public WordGameCore(string aWord) //Constructor
+        {
+            wordToGuess = aWord.ToUpper();
+            for (int i = 0; i < wordToGuess.Length; i++)
+            {
+                wordHash.Add(wordToGuess.Substring(i, 1)); // Add every unique letter of wordToGuess to the Set list.
+            }
+        }
+
+        //Getters & Setters
+
         public int GetNumberOfTriesLeft()
         {
             return numberOfTriesLeft;
@@ -43,9 +54,18 @@ namespace Hangman.Core
         {
             return incorrectlyGuessed;
         }
-        public void  AddIncorrectlyGuessed(string aStr)
+        public bool AddIncorrectlyGuessed(string aStr)
         {
-            incorrectlyGuessed += aStr;
+            if (incorrectlyGuessed.Contains(aStr))
+            {
+                return false;
+            }
+            else
+            {
+                incorrectlyGuessed += aStr;
+                return true;
+
+            }
         }
         public void AddCorreclyGuessed(string aStr)
         {
@@ -55,22 +75,13 @@ namespace Hangman.Core
         public bool LetterInGuessWord(string userGuess)
         {
             if (wordHash.Contains(userGuess))
-            { 
+            {
                 AddCorreclyGuessed(userGuess);
                 return true;
             }
             return false;
         }
 
-        public WordGameCore(string aWord)
-        {
-            wordToGuess = aWord.ToUpper();
-            for (int i = 0; i < wordToGuess.Length; i++)
-            {
-                wordHash.Add(wordToGuess.Substring(i, 1)); // Add every unique letter of wordToGuess to the Set list.
-            }
-        }
-        
         public bool CheckForWin()//string wordToGuess, string correctlyGuessed)
         {
             foreach (char letter in wordToGuess)
@@ -87,8 +98,8 @@ namespace Hangman.Core
         {
             return Char.IsLetter(getCharFromUserInput);
         }
-     
-      
+
+
         public string CreateCurrentGuessAsString()
         {
             string ReturnCurrentGuessAsString = "";
@@ -115,5 +126,4 @@ Todo
 - Stora/små bokstäver ska funkar - klar
 - Refactoring: sätta in i metoder - started
 */
- 
- 
+
