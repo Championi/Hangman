@@ -83,11 +83,12 @@ namespace Hangman.Core
             return true;
         }
 
-        public bool ValidateUserChar(string ch)
+        public bool ValidateUserInput(char getCharFromUserInput)
         {
-            return Char.IsLetter(ch.First());
+            return Char.IsLetter(getCharFromUserInput);
         }
-
+     
+      
         public string CreateCurrentGuessAsString()
         {
             string ReturnCurrentGuessAsString = "";

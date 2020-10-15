@@ -38,7 +38,7 @@ namespace Hangman.App
                     PrintCorrectLettersInWord(hangman);
                     // Console.WriteLine(incorrectlyGuessed);
                     Console.WriteLine($"\nNumber of guesses left: {hangman.GetNumberOfTriesLeft()}");
-                    userGuess = GetUserLetterGuess(); // todo: namngivning 
+                    userGuess = GetUserLetterGuess(hangman); // todo: namngivning 
                     if (userGuess == "")
                         hangman.errorMessage = "Please enter a letter (a-z)";
                     else
@@ -60,13 +60,13 @@ namespace Hangman.App
         } // main
 
 
-        static string GetUserLetterGuess()
+        static string GetUserLetterGuess(Hangman.Core.WordGameCore aHangman)
         {
             Console.Write("Please guess a letter: ");
             char getCharFromUserInput = (char)Console.Read();
 
 
-            if (!ValidateUserChar(getCharFromUserInput))
+            if (!aHangman.ValidateUserInput(getCharFromUserInput))
             {
                 Console.WriteLine("\nEnter guess between a-z");
 
@@ -77,10 +77,7 @@ namespace Hangman.App
             return convertCharToString;
         }
 
-        public static bool ValidateUserChar(char getCharFromUserInput)
-        {
-            return Char.IsLetter(getCharFromUserInput);
-        }
+      
 
         public static void PrintCorrectLettersInWord(Hangman.Core.WordGameCore aHangman)
         {
