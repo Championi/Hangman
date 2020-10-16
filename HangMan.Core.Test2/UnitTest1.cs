@@ -1,3 +1,4 @@
+// OO: Can't build this project
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HangMan.Core.Test2

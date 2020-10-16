@@ -20,6 +20,7 @@ namespace Hangman.Core
         {
         }
 
+        // OO: I usually name private field with underscore first, like "_wordToGuess" 
         private string wordToGuess;
         private HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
         private string correctlyGuessed = "";
@@ -38,6 +39,9 @@ namespace Hangman.Core
 
         //Getters & Setters
 
+        // OO: Instead of these two methods you can write:
+        // OO: public int NumberOfTriesLeft { get; set; }
+
         public int GetNumberOfTriesLeft()
         {
             return numberOfTriesLeft;
@@ -54,6 +58,8 @@ namespace Hangman.Core
         {
             return incorrectlyGuessed;
         }
+
+        // OO: This methods seems to more than one thing. Create one more method or change the same
         public bool AddIncorrectlyGuessed(string aStr)
         {
             if (incorrectlyGuessed.Contains(aStr))
@@ -84,6 +90,9 @@ namespace Hangman.Core
 
         public bool CheckForWin()//string wordToGuess, string correctlyGuessed)
         {
+
+            // OO: Can you write this method with LINQ? (hard)
+
             foreach (char letter in wordToGuess)
             {   //Om varje bokstav i gissningsordet finns i listan correctlyGuessed, skicka tillaka "true", annars "false".
                 if (correctlyGuessed.Contains(letter.ToString()) == false)
@@ -102,6 +111,7 @@ namespace Hangman.Core
 
         public string CreateCurrentGuessAsString()
         {
+            // OO: Can you write this method with LINQ? (hard)
             string ReturnCurrentGuessAsString = "";
             foreach (char letter in wordToGuess)
             {
