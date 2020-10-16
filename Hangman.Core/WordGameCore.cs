@@ -7,6 +7,16 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using System.Xml.Schema;
 
+
+/*
+Todo
+- Ordet på en rad. Grafisk, färger etc - started
+- Ett sätt att vinna - klart
+- Inte kunna skriva längre ord eller konstiga tecken - started
+- Stora/små bokstäver ska funkar - klar
+- Refactoring: sätta in i metoder - started
+*/
+
 namespace Hangman.Core
 {
     public class WordGameCore
@@ -20,67 +30,63 @@ namespace Hangman.Core
         {
         }
 
-        // OO: I usually name private field with underscore first, like "_wordToGuess" 
-        private string wordToGuess;
-        private HashSet<string> wordHash = new HashSet<string>(); // Create an empty Set list.
-        private string correctlyGuessed = "";
-        private string incorrectlyGuessed = "";
-        private int numberOfTriesLeft = 10;
+        private string _wordToGuess;
+        private HashSet<string> _wordHash = new HashSet<string>(); // Create an empty Set list.
+        private string _correctlyGuessed = "";
+        private string _incorrectlyGuessed = "";
+        private int _numberOfTriesLeft = 10;
         public string errorMessage = "";
 
         public WordGameCore(string aWord) //Constructor
         {
-            wordToGuess = aWord.ToUpper();
-            for (int i = 0; i < wordToGuess.Length; i++)
+            _wordToGuess = aWord.ToUpper();
+            for (int i = 0; i < _wordToGuess.Length; i++)
             {
-                wordHash.Add(wordToGuess.Substring(i, 1)); // Add every unique letter of wordToGuess to the Set list.
+                _wordHash.Add(_wordToGuess.Substring(i, 1)); // Add every unique letter of wordToGuess to the Set list.
             }
         }
 
         //Getters & Setters
 
-        // OO: Instead of these two methods you can write:
-        // OO: public int NumberOfTriesLeft { get; set; }
 
         public int GetNumberOfTriesLeft()
         {
-            return numberOfTriesLeft;
+            return _numberOfTriesLeft;
         }
         public void SetNumberOfTriesLeft(int val)
         {
-            numberOfTriesLeft = val;
+            _numberOfTriesLeft = val;
         }
         public string GetWordToGuess()
         {
-            return wordToGuess;
+            return _wordToGuess;
         }
         public string GetincorrectlyGuessed()
         {
-            return incorrectlyGuessed;
+            return _incorrectlyGuessed;
         }
 
-        // OO: This methods seems to more than one thing. Create one more method or change the same
-        public bool AddIncorrectlyGuessed(string aStr)
+        public bool AddIncorrectlyGuessedReturnTrueIfSuccess(string aStr)
         {
-            if (incorrectlyGuessed.Contains(aStr))
+            if (_incorrectlyGuessed.Contains(aStr))
             {
                 return false;
             }
             else
             {
-                incorrectlyGuessed += aStr;
+                _incorrectlyGuessed += aStr;
                 return true;
 
             }
         }
         public void AddCorreclyGuessed(string aStr)
         {
-            correctlyGuessed += aStr;
+            _correctlyGuessed += aStr;
         }
 
         public bool LetterInGuessWord(string userGuess)
         {
-            if (wordHash.Contains(userGuess))
+            if (_wordHash.Contains(userGuess))
             {
                 AddCorreclyGuessed(userGuess);
                 return true;
@@ -93,9 +99,9 @@ namespace Hangman.Core
 
             // OO: Can you write this method with LINQ? (hard)
 
-            foreach (char letter in wordToGuess)
+            foreach (char letter in _wordToGuess)
             {   //Om varje bokstav i gissningsordet finns i listan correctlyGuessed, skicka tillaka "true", annars "false".
-                if (correctlyGuessed.Contains(letter.ToString()) == false)
+                if (_correctlyGuessed.Contains(letter.ToString()) == false)
                 {
                     return false;
                 }
@@ -113,9 +119,9 @@ namespace Hangman.Core
         {
             // OO: Can you write this method with LINQ? (hard)
             string ReturnCurrentGuessAsString = "";
-            foreach (char letter in wordToGuess)
+            foreach (char letter in _wordToGuess)
             {
-                if (correctlyGuessed.Contains(letter.ToString()))
+                if (_correctlyGuessed.Contains(letter.ToString()))
                     ReturnCurrentGuessAsString += letter;
                 else
                 {
@@ -128,12 +134,5 @@ namespace Hangman.Core
 }
 
 
-/*
-Todo
-- Ordet på en rad. Grafisk, färger etc - started
-- Ett sätt att vinna - klart
-- Inte kunna skriva längre ord eller konstiga tecken - started
-- Stora/små bokstäver ska funkar - klar
-- Refactoring: sätta in i metoder - started
-*/
+
 

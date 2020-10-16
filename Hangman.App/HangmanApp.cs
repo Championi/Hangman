@@ -19,9 +19,7 @@ namespace Hangman.App
 
         static void Main(string[] args)
         {
-            Hangman.Core.WordGameCore hangman = new Hangman.Core.WordGameCore("Applepie");
-
-            Console.WriteLine("Test: " + hangman.CreateCurrentGuessAsString());
+            Hangman.Core.WordGameCore hangman = new Hangman.Core.WordGameCore(Countries.GetRandom());
 
             //    Console.SetCursorPosition(5, 10);
             while (hangman.GetNumberOfTriesLeft() != 0)
@@ -31,16 +29,17 @@ namespace Hangman.App
                     PrintCorrectLettersInWord(hangman);
                     Console.SetCursorPosition(50, 3);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"You Won! The correct word is {hangman.GetWordToGuess()}.");
+                    Console.Write($"You Won! The correct word is {hangman.GetWordToGuess()}.");
+                    Console.SetCursorPosition(1, 28);
                     break;
                 }
                 string userGuess = "";
                 do
                 {
                     PrintCorrectLettersInWord(hangman);
-                    // Console.WriteLine(incorrectlyGuessed);
+                    // Console.Write(incorrectlyGuessed);
                     Console.SetCursorPosition(50, 11);
-                    Console.WriteLine($"Number of guesses left: {hangman.GetNumberOfTriesLeft()}");
+                    Console.Write($"Number of guesses left: {hangman.GetNumberOfTriesLeft()}");
                     userGuess = GetUserLetterGuess(hangman); // todo: namngivning 
                     if (userGuess == "")
                         hangman.errorMessage = "Please enter a letter (a-z)";
@@ -51,14 +50,15 @@ namespace Hangman.App
 
                 if (hangman.LetterInGuessWord(userGuess) == false)
                 {
-                    if (hangman.AddIncorrectlyGuessed(userGuess) == false){    
+                    if (hangman.AddIncorrectlyGuessedReturnTrueIfSuccess(userGuess) == false)
+                    {
                         hangman.errorMessage = "Letter already guessed.";
                     }
                     else
                     {
-                    hangman.SetNumberOfTriesLeft(hangman.GetNumberOfTriesLeft()-1);
+                        hangman.SetNumberOfTriesLeft(hangman.GetNumberOfTriesLeft() - 1);
                     }
-                    
+
                 }
             } // While
 
@@ -66,7 +66,8 @@ namespace Hangman.App
             {
                 Console.SetCursorPosition(50, 3);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"You lost, the right word was {hangman.GetWordToGuess()}");
+                Console.Write($"You lost, the right word was {hangman.GetWordToGuess()}");
+                Console.SetCursorPosition(1, 28);
             }
         } // main
 
@@ -80,7 +81,8 @@ namespace Hangman.App
 
             if (!aHangman.ValidateUserInput(getCharFromUserInput))
             {
-                Console.WriteLine("\nEnter guess between a-z");
+                //Console.Write("Enter guess between a-z");
+                aHangman.errorMessage = "Please enter a letter (a-z)";
 
                 return "";
             }
@@ -89,7 +91,7 @@ namespace Hangman.App
             return convertCharToString;
         }
 
-      
+
 
         public static void PrintCorrectLettersInWord(Hangman.Core.WordGameCore aHangman)
         {
@@ -97,14 +99,70 @@ namespace Hangman.App
             Console.SetCursorPosition(50, 1);
             Console.SetCursorPosition(50, 3);
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(aHangman.errorMessage);
+            Console.Write(aHangman.errorMessage);
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(50, 5);
-            Console.WriteLine("Guess a country ");
+            Console.Write("Guess a country ");
             Console.SetCursorPosition(50, 7);
-            Console.WriteLine(aHangman.CreateCurrentGuessAsString());
+            Console.Write(aHangman.CreateCurrentGuessAsString());
             Console.SetCursorPosition(50, 12);
-            Console.WriteLine($"Bad guesses:{aHangman.GetincorrectlyGuessed()}");
+            Console.Write($"Bad guesses:{aHangman.GetincorrectlyGuessed()}");
+            Console.SetCursorPosition(50, 26);
+            PrintHangMan(aHangman.GetNumberOfTriesLeft());
+
+        }
+
+        private static void PrintHangMan(int v)
+        {
+            switch (v)
+            {
+                case 10:
+                    Console.SetCursorPosition(50, 25);
+                    Console.WriteLine("_________|  |_________");
+                    Console.SetCursorPosition(50, 26);
+                    Console.Write("|                     |");
+                    break;
+                case 9:
+                    Console.SetCursorPosition(50, 13);
+                    Console.Write("                 |  |");
+                    Console.SetCursorPosition(50, 25);
+                    Console.Write("_________|  |_________");
+                    Console.SetCursorPosition(50, 26);
+                    Console.Write("|                     |");
+                    break;
+
+            }
         }
     }
 }
+
+/*
+                 ________________________
+                 |    ___________________|
+                 |   /               |
+                 |  |                |
+                 |  |              ('_')
+                 |  |               _|_
+                 |  |              / | \
+                 |  |                |
+                 |  |               / \
+                 |  |              /   \
+                 |  |
+                 |  |
+        _________|  |_________
+        |                    |          14 rader
+
+
+1   Ramen
+2   Stommen lodrätt
+3   Stommen vågrätt
+4   repet
+5   huvudet
+6   hals & kropp
+7   arm höger
+8   arm vänster
+9   ben höger
+10  ben vänster
+
+
+*/
